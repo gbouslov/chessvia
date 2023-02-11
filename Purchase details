@@ -1,0 +1,123 @@
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+  const loggedinEmail = window['logged_in_user']['softr_user_email'];
+  var cta3;
+  
+  var waitForData = setInterval(function () {
+    if (window.records) {
+      const recordId = getUrlParam('recordId');
+      console.log("Record ID:", recordId);
+      if (window.records[recordId] && window.records[recordId].record.fields['revieweremail'] === loggedinEmail) {
+        
+        cta3 = document.getElementById('cta3');
+        console.log("CTA3 Element:", cta3);
+        cta3.style.display = 'block';
+        
+        clearInterval(waitForData);
+      }
+    }
+  }, 100);
+
+    function getUrlParam(name) {
+        const url = new URL(window.location.href);
+        let param;
+        for(var key of url.searchParams.keys()) {
+            if(key.toLowerCase() === name.toLowerCase()) {
+            param = url.searchParams.get(name);
+            break;
+            }
+        }
+
+        if(!param && name.toLowerCase() === 'recordid') {
+            param = getRecordIdFromPath();
+        }
+        return param;
+    }
+
+    function getRecordIdFromPath() {
+        let pathName = window.location.pathname;
+        if (pathName.indexOf('/r/rec') !== -1) {
+            pathName = pathName.substr(pathName.indexOf('/r/rec') + 3);
+            if (pathName.indexOf("/") !== -1) {
+            pathName = pathName(0, pathName.indexOf('/'))
+            }
+            return pathName;
+        }
+        return undefined;
+    }
+});
+
+
+      window.addEventListener('block-loaded-cta3', () => {
+        console.log('CTA Block loaded');
+
+        const buttonClickHandler = (e) => {
+            var iterator = document.evaluate("//a[contains(., 'Details')]", document);
+            var btn = iterator.iterateNext();
+
+            if (e.target === btn || e.target.parentNode === btn) {
+                console.log('Click Button 1');
+                document.getElementById("details1").style.display = "block";
+                document.getElementById("embed1").style.display = "block";
+                document.getElementById("comments2").style.display = "none";
+                  document.getElementById("form3").style.display = "none";
+                  document.getElementById("list-details8").style.display = "none";
+                  document.getElementById("list-details9").style.display = "none";
+                  document.getElementById("userdetails").style.display = "none";
+                  document.getElementById("reviewerdetails").style.display = "none";
+            }
+
+            iterator = document.evaluate("//a[contains(., 'Change Status')]", document);
+            btn = iterator.iterateNext();
+            
+            if (e.target === btn || e.target.parentNode === btn) {
+                console.log('Click Button 2');
+                document.getElementById("list-details8").style.display = "block";
+                document.getElementById("list-details9").style.display = "block";
+                document.getElementById("details1").style.display = "none";
+                document.getElementById("embed1").style.display = "none";
+                document.getElementById("comments2").style.display = "none";
+                  document.getElementById("form3").style.display = "none";
+                  document.getElementById("userdetails").style.display = "none";
+                  document.getElementById("reviewerdetails").style.display = "none";
+            }
+
+            iterator = document.evaluate("//a[contains(., 'Reviewer')]", document);
+            btn = iterator.iterateNext();
+            if (e.target === btn || e.target.parentNode === btn) {
+                console.log('Click Button 3');
+                document.getElementById("reviewerdetails").style.display = "block";
+                document.getElementById("details1").style.display = "none";
+                document.getElementById("embed1").style.display = "none";
+                document.getElementById("comments2").style.display = "none";
+                  document.getElementById("form3").style.display = "none";
+                  document.getElementById("list-details8").style.display = "none";
+                  document.getElementById("list-details9").style.display = "none";
+                  document.getElementById("userdetails").style.display = "none";
+                  
+            }
+            
+            iterator = document.evaluate("//a[contains(., 'Discuss')]", document);
+            btn = iterator.iterateNext();
+            if (e.target === btn || e.target.parentNode === btn) {
+                console.log('Click Button 4');
+                document.getElementById("details1").style.display = "none";
+                document.getElementById("embed1").style.display = "none";
+                document.getElementById("comments2").style.display = "block";
+                  document.getElementById("form3").style.display = "none";
+                  document.getElementById("list-details8").style.display = "none";
+                  document.getElementById("list-details9").style.display = "none";
+                  document.getElementById("userdetails").style.display = "none";
+                  document.getElementById("reviewerdetails").style.display = "none";
+            }
+            
+        };
+        
+        
+        
+        
+
+        document.body.addEventListener('click', buttonClickHandler);
+    });
+</script>
